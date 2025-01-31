@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Todo List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .todo-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        .todo-input {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        .todo-input input {
+            flex-grow: 1;
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .todo-input button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .todo-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .todo-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .todo-item.completed {
+            text-decoration: line-through;
+            color: #888;
+        }
+        .delete-btn {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="todo-container">
+        <h1>Todo List</h1>
+        <div class="todo-input">
+            <input type="text" id="taskInput" placeholder="Enter a new task">
+            <button onclick="addTodo()">Add Task</button>
+        </div>
+        <ul id="todoList" class="todo-list">
+            <!-- Todo items will be dynamically added here -->
+        </ul>
+    </div>
+
+    <script>
+        // Fetch and display todos
+        function loadTodos() {
+            fetch('/api/todos')
+                .then(response => response.json())
+                .then(todos => {
+                    const todoList = document.getElementById('todoList');
+                    todoList.innerHTML = '';
+                    todos.forEach(todo => {
+                        const li = document.createElement('li');
+                        li.classList.add('todo-item');
+                        if (todo.completed) li.classList.add('completed');
+                        
+                        li.innerHTML = `
+                            <span onclick="toggleComplete(${todo.id}, ${todo.completed})">${todo.task}</span>
+                            <button class="delete-btn" onclick="deleteTodo(${todo.id})">Delete</button>
+                        `;
+                        
+                        todoList.appendChild(li);
+                    });
+                });
+        }
+
+        // Add a new todo
+        function addTodo() {
+            const taskInput = document.getElementById('taskInput');
+            const task = taskInput.value.trim();
+            
+            if (task) {
+                fetch('/api/todos', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ task: task, completed: false })
+                })
+                .then(() => {
+                    taskInput.value = '';
+                    loadTodos();
+                });
+            }
+        }
+
+        // Toggle todo completion
+        function toggleComplete(id, currentStatus) {
+            fetch(`/api/todos/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ completed: !currentStatus })
+            })
+            .then(() => loadTodos());
+        }
+
+        // Delete a todo
+        function deleteTodo(id) {
+            fetch(`/api/todos/${id}`, {
+                method: 'DELETE'
+            })
+            .then(() => loadTodos());
+        }
+
+        // Load todos on page load
+        loadTodos();
+    </script>
+</body>
+</html>

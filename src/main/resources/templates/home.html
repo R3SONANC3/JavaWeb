@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User List</title>
+    <!-- ลิงก์ไปยังไฟล์ CSS ของ Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEJZHgZ2lmj2gk5Ek+HhfCk7p3frV7D7MjX6JqH5Kf5I0HZ8r7V1TUL6a4F4l" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+        h1 {
+            color: #495057;
+        }
+        table {
+            margin-top: 20px;
+        }
+        th, td {
+            text-align: center;
+        }
+        .table-container {
+            margin: 30px;
+        }
+        .btn-add {
+            margin-top: 20px;
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-add:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container table-container">
+        <h1 class="text-center">User List</h1>
+        <!-- ตารางแสดงข้อมูลผู้ใช้ -->
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- ใช้ Thymeleaf เพื่อวนลูปรายการ user -->
+                <tr th:each="user : ${users}">
+                    <td th:text="${user.id}"></td>
+                    <td th:text="${user.name}"></td>
+                    <td th:text="${user.email}"></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="text-center">
+            <a href="/add-user" class="btn btn-add">Add New User</a>
+        </div>
+    </div>
+
+    <!-- ลิงก์ไปยังไฟล์ JavaScript ของ Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pzjw8f+ua7Kw1TIq0l3t5BUm32w4lS90m5ZXgPzqqJpkvkcRbqJJhlcCbu2F1kA" crossorigin="anonymous"></script>
+</body>
+</html>
