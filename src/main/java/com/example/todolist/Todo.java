@@ -1,4 +1,4 @@
-package com.example.todolist.model;
+package com.example.todolist;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,11 +10,10 @@ public class Todo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
     private String task;
     private boolean completed;
 
-    // Constructors
+    // Constructors, getters, and setters
     public Todo() {}
 
     public Todo(String task) {
@@ -22,7 +21,7 @@ public class Todo {
         this.completed = false;
     }
 
-    // Getters and Setters
+    // Getters and setters
     public Long getId() {
         return id;
     }

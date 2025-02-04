@@ -53,10 +53,17 @@
         </dependency>
 
         <!-- Mysql DataBase -->
-        <dependency>
+        <!-- <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.29</version>
+        </dependency> -->
+
+        <!-- Dev Tools -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
         </dependency>
 
     </dependencies>
@@ -67,7 +74,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.example.todolist.TodoListApplication</mainClass>
+                    <mainClass>com.example.WebApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>
